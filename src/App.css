@@ -1,0 +1,107 @@
+*{
+  font-family: sans-serif;
+
+}
+.containerpro{
+  margin-top: 20px;
+  margin-left: 10%;
+  margin-right: 10%;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 1px 1px 8px 1px #888;
+  display: flex;
+  flex-direction: column;
+}
+.container{
+  display: grid;
+  grid-template-columns:1fr 1fr 1fr;
+
+  
+
+}
+.dias{
+  margin: 2px;
+  border: 1px solid #888;
+  padding: 5px;
+  font-size: 12px;
+  border-radius: 10px;
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+}
+.dias input{
+  margin: auto;
+}
+.dias h4{
+  text-align: center;
+  font-size: 14px;
+  
+}
+.dias div{
+  margin: 10px auto;
+  font-size: 14px;
+
+}
+.miName{
+  padding: 0 10px;
+  margin: auto;
+
+}
+.miName h4{
+  color: #444;
+  padding: 0;
+  margin: 5px;
+  text-align: center;
+
+}
+.miName input{
+  border: 1px solid #888;
+  border-radius: 10px;
+  padding: 5px;
+  margin: 0 5px;
+}
+.miName button{
+  padding: 3px;
+  border-radius: 5px;
+  border: 1px solid #777 ;
+}
+.miName button:focus{
+  box-shadow: 1px 1px 13px 2px #999;
+}
+
+
+.nombre{
+  display: flex;
+  flex-direction: column;
+  box-shadow: 1px 1px 8px 1px #888;
+  margin-top: 20px;
+  margin-left: 10%;
+  margin-right: 10%;
+  border-radius: 10px;
+  padding: 10px;
+  height: 170px;
+  overflow-y: hidden;
+  overflow-y: scroll;
+
+}
+
+.nombre div{
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+.nombre div button{
+  background: transparent;
+  border: 0;
+  color: red;
+  cursor: pointer;
+  font-size: 15px;
+  margin-top: 2px;
+}
+h1,h2{
+  text-align: center;
+}
+p{
+  margin: 0px;
+  padding: 7px;
+}
