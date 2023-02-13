@@ -1,5 +1,7 @@
 *{
   font-family: sans-serif;
+  margin: 0;
+  padding: 0;
 
 }
 .containerpro{
@@ -79,9 +81,7 @@
   margin-right: 10%;
   border-radius: 10px;
   padding: 10px;
-  height: 170px;
-  overflow-y: hidden;
-  overflow-y: scroll;
+
 
 }
 
@@ -104,4 +104,19 @@ h1,h2{
 p{
   margin: 0px;
   padding: 7px;
+}
+.nombre table{
+ border-collapse: collapse; 
+}
+.nombre table td,th,tr{
+  border: 1px solid black;
+  border-collapse: collapse;  
+
+ }
+
+.nombre img {
+  width: 80px;
+  height: 80px;
+  border-radius: 100%;
+  object-fit: cover;
 }

@@ -1,37 +1,43 @@
 import React, { useState, useEffect } from 'react'
-import { db } from './firebase.js'
+import { db, uploadFile } from './firebase.js'
 import { collection, deleteDoc, getDoc, getDocs, addDoc, doc } from "firebase/firestore";
 
 import './App.css'
 
 function App() {
-
-
-	const handleInputChange = (e) => {
-		const { name, value } = e.target;
-		setValues({ ...values, [name]: value })
-	}
-
 	const initialStateValues = {
 		name: '',
-		lunes: '',
-		martes: '',
-		miercoles: '',
-		jueves: '',
-		viernes: '',
-		sabado: '',
-		domingo: ''
+		photo: '',
+		
+	}
+	const [ values, setValues ] = useState(initialStateValues)
+	const [file, setFile ] = useState(null)
+	const [name, setName ] = useState('')
+	const [photo, setPhoto ] = useState('')
+
+
+
+	const handleFile = async () => {
+		try {
+			const result = await uploadFile(file)
+			setPhoto(result)
+		} catch (error) {
+			console.log(error)
+		}
+		
 	}
 
-	const collectionName = "calendario"
-	const [registros, setRegistros] = useState([])
-	const [ values, setValues ] = useState(initialStateValues)
-
-	const handleSubmit = async (e) => {
-		e.preventDefault()
+	const handleSubmit = async () => {
 		await addDoc(collection(db, collectionName), values);
 	}
 	  	
+
+	const onDeleteLink = async (id) => {
+		await deleteDoc(doc(db, collectionName, id))
+	};
+	
+	const collectionName = "crudImg"
+	const [registros, setRegistros] = useState([])
 
 	const getLinks = async () => {
     const querySnapshot = await getDocs(collection(db, collectionName));
@@ -48,100 +54,61 @@ function App() {
 
 	useEffect(() => {
 		getLinks()
+		setValues({
+			name,
+			photo,
+			
+		})
 	})
 
-  const onDeleteLink = async (id) => {
-      await deleteDoc(doc(db, collectionName, id))
-  };
 
 	return (
 		<>
 		<h1>Formulario</h1>
-			<form onSubmit={handleSubmit}>
+			
 				<div className="containerpro">
-					<div className="container">
-						<div className="dias">
-							 <h4>Lunes</h4>
-							 <select name='lunes' onChange={handleInputChange}>
-								 <option>Ninguno</option>
-								 <option>Mañana</option>
-								 <option>Tarde</option>
-								 <option>Noche</option>
-							 </select>
-						</div>
-				  	<div className="dias">
-							 <h4>Martes</h4>
-							 <select name='martes' onChange={handleInputChange}>
-								 <option>Ninguno</option>
-								 <option>Mañana</option>
-								 <option>Tarde</option>
-								 <option>Noche</option>
-							 </select>
-						</div>
-						<div className="dias">
-							 <h4>Miercoles</h4>
-							 <select name='miercoles' onChange={handleInputChange}>
-								 <option>Ninguno</option>
-								 <option>Mañana</option>
-								 <option>Tarde</option>
-								 <option>Noche</option>
-							 </select>
-						</div>
-						<div className="dias">
-							 <h4>Jueves</h4>
-							 <select name='jueves' onChange={handleInputChange}>
-								 <option>Ninguno</option>
-								 <option>Mañana</option>
-								 <option>Tarde</option>
-								 <option>Noche</option>
-							 </select>
-						</div>
-						<div className="dias">
-							 <h4>Viernes</h4>
-							 <select name='viernes' onChange={handleInputChange}>
-								 <option>Ninguno</option>
-								 <option>Mañana</option>
-								 <option>Tarde</option>
-								 <option>Noche</option>
-							 </select>
-						</div>
-						<div className="dias">
-							 <h4>Sabado</h4>
-							 <select name='sabado' onChange={handleInputChange}>
-								 <option>Ninguno</option>
-								 <option>Mañana</option>
-								 <option>Tarde</option>
-								 <option>Noche</option>
-							 </select>
-						</div>
-						<div className="dias">
-							 <h4>Domingo</h4>
-							 <select name='domingo' onChange={handleInputChange}>
-								 <option>Ninguno</option>
-								 <option>Mañana</option>
-								 <option>Tarde</option>
-								 <option>Noche</option>
-							 </select>
-						</div>
-					</div>
 					<div className="miName">
-					  <h4>Mi Nombre</h4>
-						<input name='name' type="text" onChange={handleInputChange}/>
-						<button>Registrar</button>
+						<input type="file" name="" id="" onChange={(e)=> setFile(e.target.files[0])}/>
+						<button onClick={()=>handleFile()}>Subir Imagen</button>
+						<h4>Mi Nombre</h4>
+						<input name='name' type="text" onChange={(e)=>setName(e.target.value)}/>
+						<h4>Mi Foto</h4>
+						{/* <input name='photo' type="text" onChange={handleInputChange}/> */}
+						<button onClick={()=>handleSubmit()}>Registrar</button>
 					</div>
 				</div>
-			</form>
+			
 			
 					<h2>Registrados</h2>
 					<div className="nombre">
-					{registros.map((val)=>{
-						return(
-								<div key={val.id}>
+					<table>
+						<thead>
+							<tr>
+								<th>Nombre</th>
+								<th>Foto</th>
+								<th>Acciones</th>
+							</tr>
+						</thead>
+						
+						{registros.map((val)=>{
+							return(
+						<tbody key={val.id}>			
+							<tr>
+								<td>
 									<p>{val.name}</p>
+								</td>
+								<td>
+									<img src={val.photo} alt={val.name} />
+								</td>
+								<td>
 									<button onClick={()=>onDeleteLink(val.id)}>X</button>
-								</div>
-						)
-					})}
+								</td>
+							</tr>
+						</tbody>			
+									
+							)
+						})}
+					</table>
 					</div>
 				
 
